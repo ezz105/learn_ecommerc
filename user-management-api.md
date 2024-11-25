@@ -30,8 +30,8 @@ Retrieves a list of all registered users.
     "users": [
         {
             "id": 1,
-            "name": "John Doe",
-            "email": "john@example.com",
+            "name": "Alex Smith",
+            "email": "alex.smith@example.com",
             "role_id": 1,
             "phone_number": "1234567890",
             "created_at": "2024-01-20T12:00:00.000000Z",
@@ -54,8 +54,8 @@ Creates a new user account.
 **Request Body:**
 ```json
 {
-    "name": "John Doe",
-    "email": "john@example.com",
+    "name": "Alex Smith",
+    "email": "alex.smith@example.com",
     "password": "password123",
     "role_id": 1,
     "phone_number": "1234567890"
@@ -76,8 +76,8 @@ Creates a new user account.
     "message": "User created successfully",
     "user": {
         "id": 1,
-        "name": "John Doe",
-        "email": "john@example.com",
+        "name": "Alex Smith",
+        "email": "alex.smith@example.com",
         "role_id": 1,
         "phone_number": "1234567890",
         "created_at": "2024-01-20T12:00:00.000000Z",
@@ -97,8 +97,8 @@ Retrieves details of a specific user.
     "status": "success",
     "user": {
         "id": 1,
-        "name": "John Doe",
-        "email": "john@example.com",
+        "name": "Alex Smith",
+        "email": "alex.smith@example.com",
         "role_id": 1,
         "phone_number": "1234567890",
         "created_at": "2024-01-20T12:00:00.000000Z",
@@ -119,8 +119,8 @@ Updates an existing user's information.
 **Request Body:**
 ```json
 {
-    "name": "John Doe Updated",
-    "email": "john.updated@example.com",
+    "name": "Alex Smith Updated",
+    "email": "alex.smith.updated@example.com",
     "role_id": 2,
     "phone_number": "0987654321"
 }
@@ -139,8 +139,8 @@ Updates an existing user's information.
     "message": "User updated successfully",
     "user": {
         "id": 1,
-        "name": "John Doe Updated",
-        "email": "john.updated@example.com",
+        "name": "Alex Smith Updated",
+        "email": "alex.smith.updated@example.com",
         "role_id": 2,
         "phone_number": "0987654321",
         "created_at": "2024-01-20T12:00:00.000000Z",
@@ -152,13 +152,27 @@ Updates an existing user's information.
 ### 5. Delete User
 Removes a user from the system.
 
-**Endpoint:** `DELETE /admin/users/{id}`
+**Note:** 
+- Default deletion (`DELETE /admin/users/{id}`) will only mark the user as deleted but keep the record in the database
+- To permanently remove the user from the database, use `?force=true` parameter
 
-**Response Example:**
+**Endpoints:** 
+1. Soft Delete: `DELETE /admin/users/{id}`
+2. Permanent Delete: `DELETE /admin/users/{id}?force=true`
+
+**Response Example (Soft Delete):**
 ```json
 {
     "status": "success",
-    "message": "User deleted successfully"
+    "message": "User soft deleted successfully"
+}
+```
+
+**Response Example (Permanent Delete):**
+```json
+{
+    "status": "success",
+    "message": "User permanently deleted successfully"
 }
 ```
 
@@ -206,3 +220,6 @@ Removes a user from the system.
 - All endpoints require admin privileges
 - Passwords are automatically hashed before storage
 - Email addresses must be unique in the system
+- Use `?force=true` when you want to permanently remove the user record from the database
+- Without `force=true`, the user will only be marked as deleted but the record will remain in the database
+- Permanent deletion cannot be undone, so use with caution
