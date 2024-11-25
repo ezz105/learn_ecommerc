@@ -10,7 +10,9 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
- 
+    /**
+     * Display a listing of all users
+     */
     public function index()
     {
         $users = User::with('role')->get();
@@ -20,7 +22,9 @@ class UserController extends Controller
         ]);
     }
 
- 
+    /**
+     * Store a newly created user
+     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,6 +58,9 @@ class UserController extends Controller
         ], 201);
     }
 
+    /**
+     * Display the specified user
+     */
     public function show($id)
     {
         $user = User::with('role')->find($id);
@@ -71,7 +78,9 @@ class UserController extends Controller
         ]);
     }
 
-   
+    /**
+     * Update the specified user
+     */
     public function update(Request $request, $id)
     {
         $user = User::find($id);
@@ -125,6 +134,7 @@ class UserController extends Controller
             ], 404);
         }
 
+        // Check if force delete is requested
         if ($request->get('force', false)) {
             $user->forceDelete();
             $message = 'User permanently deleted successfully';
